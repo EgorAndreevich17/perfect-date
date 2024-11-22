@@ -1,0 +1,150 @@
+.card {
+  color: white;
+  width: 300px;
+  height: 500px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  &-content {
+    padding-inline: 10px;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    position: absolute;
+    margin-bottom: 10px;
+    &--description {
+      text-align: left;
+      position: absolute;
+      //   top: -180px;
+      bottom: 60px;
+      font-size: 0.8rem;
+    }
+    &--title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-block: 10px;
+      position: absolute;
+      top: -170px;
+      //   left: 0;
+      //   color: red;
+      z-index: 100;
+    }
+  }
+
+  &-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    // border-radius: 10px;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap; /* Это позволит тегам переноситься на следующую строку */
+  align-items: start;
+  position: absolute;
+  left: 0;
+  padding-inline: 5px;
+  top: -120px;
+  width: 100%; /* Чтобы теги занимали всю ширину карточки */
+}
+
+.tag {
+  color: black;
+  display: inline-block;
+  margin: 2px 5px;
+  padding: 2px 5px;
+  background: #f1f1f1;
+  border-radius: 5px;
+  font-size: 0.6rem; /* Размер шрифта для тегов */
+  white-space: nowrap; /* Запрещаем переносить слова внутри одного тега */
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  margin-bottom: 15px;
+
+  button {
+    display: flex; /* Для центровки содержимого */
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* Единый размер кнопок */
+    width: 40px;
+    margin: 5px;
+    border: none;
+    border-radius: 50%; /* Круглые кнопки */
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    img {
+      height: 20px; /* Размер иконок */
+      width: 20px;
+    }
+
+    &:hover {
+      transform: scale(1.1); /* Увеличение при наведении */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    &:nth-child(1) {
+      height: 30px;
+      width: 30px;
+    }
+
+    &:nth-child(2) {
+      & img {
+        height: 15px; /* Размер иконок */
+        width: 15px;
+      }
+    }
+
+    &:nth-child(5) {
+      height: 30px;
+      width: 30px;
+    }
+
+    &:nth-child(3) {
+      height: 50px;
+      width: 50px;
+      background-color: #357ded; /* Особый цвет для третьей кнопки */
+      & img {
+        height: 30px; /* Размер иконок */
+        width: 30px;
+      }
+    }
+  }
+}
+
+.swiper-container {
+  width: 100%;
+  // height: 200px; /* Высота контейнера */
+  height: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  z-index: 1;
+}
