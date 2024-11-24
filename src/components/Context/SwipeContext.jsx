@@ -8,23 +8,45 @@ export const useSwipeContext = () => useContext(SwipeContext);
 
 // Провайдер
 export const SwipeProvider = ({ children }) => {
-    const [cards, setCards] = useState(CardsData);
+    const [cards, setCards] = useState(CardsData); // Список всех карточек
+    const [selectedActivities, setSelectedActivities] = useState([]); // Лайкнутые карточки
+    const [skippedActivities, setSkippedActivities] = useState([]); // Пропущенные карточки
+    const [dislikedActivities, setDislikedActivities] = useState([]); // Дизлайкнутые карточки
+    const [viewedCategories, setViewedCategories] = useState([]); // Отслеживание просмотренных категорий
+    const [message, setMessage] = useState(""); // Сообщение для карточки
+    const [confirmLoading, setConfirmLoading] = useState(false); // Статус загрузки
+    const [modalContent, setModalContent] = useState(<FormMessage />); // Контент модалки
+    const [open, setOpen] = useState(false); // Статус модалки
 
-    const [selectedActivities, setSelectedActivities] = useState([]);
-    const [skippedActivities, setSkippedActivities] = useState([]);
-    const [dislikedActivities, setDislikedActivities] = useState([]);
-    // const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState("");
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalContent, setModalContent] = useState(<FormMessage />); // Управление контентом модалки
-    const [open, setOpen] = useState(false);
+    // Массив всех категорий
+    const categories = ['celebrity', 'idea', 'movie', 'music', 'food', 'drink', 'art', 'book', 'style', 'character'];
 
-    // Функция для обработки действий с карточками
+    // Фильтрация карточек по типу (категории), исключая уже просмотренные категории
+    const filterCardsByCategory = () => {
+        // Находим первую категорию, которая еще не была просмотрена
+        const firstUnviewedCategory = categories.find(category => !viewedCategories.includes(category));
+
+        if (!firstUnviewedCategory) {
+            return []; // Если все категории просмотрены, возвращаем пустой массив
+        }
+
+        // Возвращаем только карточки из первой непосмотренной категории
+        return CardsData.filter(card => card.type === firstUnviewedCategory);
+    };
+
+    // Функция для обработки действия с карточкой
     const swipe = (card, liked) => {
         if (liked) {
             setSelectedActivities([...selectedActivities, card]);
         }
-        setCards(cards.slice(1)); // Удаляем верхнюю карточку
+        // Убираем карточку из текущего списка
+        setCards(cards.slice(1));
+
+        // После того как карточка свайпнута, помечаем категорию как просмотренную
+        const currentCategory = card.type;
+        if (!viewedCategories.includes(currentCategory)) {
+            setViewedCategories([...viewedCategories, currentCategory]);
+        }
     };
 
     // Функция дизлайка слайда
@@ -54,9 +76,9 @@ export const SwipeProvider = ({ children }) => {
         setSkippedActivities([]); // Очистим массив пропущенных, так как они уже вернутся
     };
 
-    //Функция показа модального окна
+    // Функция показа модального окна
     const showModal = () => {
-        console.log('ewofkwef')
+        console.log('ewofkwef');
         setOpen(true);
         setModalContent(renderInputForm(<FormMessage />)); // Устанавливаем исходное состояние
     };
@@ -80,20 +102,19 @@ export const SwipeProvider = ({ children }) => {
             addMessage(cards[0], message); // Добавляем сообщение через контекст
             setMessage(""); // Сбрасываем текст инпута
             setConfirmLoading(false);
-            setOpen(false)
+            setOpen(false);
             setModalContent(renderInputForm(<FormMessage />)); // Возвращаем форму ввода
-            console.log(selectedActivities)
+            console.log(selectedActivities);
         }, 2000);
     };
 
     return (
         <SwipeContext.Provider
             value={{
-                cards,
+                cards: filterCardsByCategory(), // Фильтруем карточки по категории
                 selectedActivities,
                 skippedActivities,
                 dislikedActivities,
-                // messages,
                 swipe,
                 dislikeCard,
                 addMessage,

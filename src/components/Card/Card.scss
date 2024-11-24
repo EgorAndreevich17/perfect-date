@@ -1,169 +1,268 @@
-@import '../../../public/static/styles/colors.scss';
+@import "../../../public/static/styles/colors.scss";
 
 .card {
-  color: white;
-  width: 300px;
-  height: 500px;
-  margin: 20px auto;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-
-  &-content {
-    padding-inline: 10px;
-    z-index: 2;
-    width: 100%;
-    box-sizing: border-box;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    position: absolute;
-    margin-bottom: 10px;
-    &--description {
-      text-align: left;
-      position: absolute;
-      //   top: -180px;
-      bottom: 60px;
-      font-size: 0.8rem;
+    color: white;
+    width: 300px;
+    height: 500px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    // padding: 5px;
+    @media (max-width: 480px) {
+        border: none;
+        box-sizing: content-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
     }
-    &--title {
-      text-align: left;
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-block: 10px;
-      position: absolute;
-      top: -170px;
-      //   left: 0;
-      //   color: red;
-      z-index: 100;
-    }
-  }
 
-  &-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    // border-radius: 10px;
-  }
+    &-content {
+        padding-inline: 10px;
+        z-index: 2;
+        width: 100%;
+        box-sizing: border-box;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        position: absolute;
+        margin-bottom: 10px;
+
+        &--description {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            position: absolute;
+            // top: -180px;
+            bottom: 75px;
+            font-size: 0.8rem;
+
+            @media (max-width: 480px) {
+                padding: 8px;
+                bottom: 120px;
+                font-size: 20px;
+            }
+        }
+        &--title {
+            text-align: left;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-block: 10px;
+            position: absolute;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            top: -170px;
+            //   left: 0;
+            //   color: red;
+            z-index: 100;
+            @media (max-width: 480px) {
+                top: -270px;
+                font-size: 36px;
+            }
+        }
+    }
+
+    &-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+        @media (max-width: 480px) {
+            height: 100%;
+            object-fit: cover;
+        }
+    }
 }
 
 .tags {
-  display: flex;
-  flex-wrap: wrap; /* Это позволит тегам переноситься на следующую строку */
-  align-items: start;
-  position: absolute;
-  left: 0;
-  padding-inline: 5px;
-  top: -120px;
-  width: 100%; /* Чтобы теги занимали всю ширину карточки */
+    display: flex;
+    flex-wrap: wrap; /* Это позволит тегам переноситься на следующую строку */
+    align-items: start;
+    position: absolute;
+    left: 0;
+    padding-inline: 5px;
+    bottom: 75px;
+    width: 100%; /* Чтобы теги занимали всю ширину карточки */
+    @media (max-width: 480px) {
+        // padding: 25px;
+        bottom: 120px;
+        margin-bottom: 30px;
+    }
 }
 
 .tag {
-  color: black;
-  display: inline-block;
-  margin: 2px 5px;
-  padding: 2px 5px;
-  background: #f1f1f1;
-  border-radius: 5px;
-  font-size: 0.65rem; /* Размер шрифта для тегов */
-  white-space: nowrap; /* Запрещаем переносить слова внутри одного тега */
+    color: black;
+    display: inline-block;
+    margin: 2px 5px;
+    padding: 2px 5px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    font-size: 0.65rem; /* Размер шрифта для тегов */
+    white-space: nowrap; /* Запрещаем переносить слова внутри одного тега */
+    @media (max-width: 480px) {
+        font-size: 16px; /* Размер шрифта для тегов */
+    }
 }
 
 .actions {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-  z-index: 100;
-  margin-bottom: 15px;
-
-  button {
-    display: flex; /* Для центровки содержимого */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: 40px; /* Единый размер кнопок */
-    width: 40px;
-    margin: 5px;
-    border: none;
-    border-radius: 50%; /* Круглые кнопки */
-    cursor: pointer;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-
-    img {
-      height: 20px; /* Размер иконок */
-      width: 20px;
+    position: absolute;
+    bottom: 0;
+    z-index: 100;
+    margin-bottom: 15px;
+    @media (max-width: 480px) {
+        bottom: 30px;
+        margin-bottom: 30px;
+        width: 96%;
     }
 
-    &:hover {
-      transform: scale(1.1); /* Увеличение при наведении */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
+    button {
+        display: flex; /* Для центровки содержимого */
+        align-items: center;
+        justify-content: center;
+        height: 45px; /* Единый размер кнопок */
+        width: 45px;
+        margin: 5px;
+        border: none;
+        border-radius: 50%; /* Круглые кнопки */
+        cursor: pointer;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        @media (max-width: 480px) {
+            height: 60px;
+            width: 60px;
+        }
 
-    &:nth-child(1) {
-      height: 30px;
-      width: 30px;
-    }
+        img {
+            height: 20px; /* Размер иконок */
+            width: 20px;
+        }
 
-    &:nth-child(2) {
-      & img {
-        height: 15px; /* Размер иконок */
-        width: 15px;
-      }
-    }
+        &:hover {
+            transform: scale(1.1); /* Увеличение при наведении */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
 
-    &:nth-child(5) {
-      height: 30px;
-      width: 30px;
-    }
+        &:nth-child(1) {
+            height: 35px;
+            width: 35px;
+            @media (max-width: 480px) {
+                height: 50px;
+                width: 50px;
+                & img {
+                    height: 25px;
+                    width: 25px;
+                }
+            }
+        }
 
-    &:nth-child(3) {
-      height: 50px;
-      width: 50px;
-      background-color: #DE89BE;
-      & img {
-        height: 30px; /* Размер иконок */
-        width: 30px;
-      }
+        &:nth-child(2) {
+            & img {
+                height: 15px; /* Размер иконок */
+                width: 15px;
+                @media (max-width: 480px) {
+                    height: 25px;
+                    width: 25px;
+                }
+            }
+        }
+
+        &:nth-child(3) {
+            height: 60px;
+            width: 60px;
+            background-color: #de89be;
+            & img {
+                height: 30px; /* Размер иконок */
+                width: 30px;
+            }
+            @media (max-width: 480px) {
+                height: 85px;
+                width: 85px;
+                & img {
+                    height: 45px; /* Размер иконок */
+                    width: 45px;
+                }
+            }
+        }
+
+        &:nth-child(4) {
+            @media (max-width: 480px) {
+                & img {
+                    height: 30px; /* Размер иконок */
+                    width: 30px;
+                }
+            }
+        }
+
+        &:nth-child(5) {
+            height: 35px;
+            width: 35px;
+            @media (max-width: 480px) {
+                height: 50px;
+                width: 50px;
+                & img {
+                    height: 25px;
+                    width: 25px;
+                }
+            }
+        }
     }
-  }
+}
+
+.swiper-wrapper {
+    @media (max-width: 480px) {
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 66%,
+            rgba(0, 0, 0, 0.9) 100%
+        );
+    }
 }
 
 .swiper-container {
-  width: 100%;
-  height: 500px;
-  border-radius: 10px;
-  overflow: hidden;
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    @media (max-width: 480px) {
+        z-index: 10000;
+        object-fit: cover;
+        height: 100%;
+        width: 100vw;
+    }
 }
 
 .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    z-index: 1;
 }
 
 .custom-ok-button {
-  background-color: #DE89BE;
-  border-color: #DE89BE;
-  color: #fff;
-  transition: transform 0.2s, background-color 0.2s;
+    background-color: #de89be;
+    border-color: #de89be;
+    color: #fff;
+    transition: transform 0.2s, background-color 0.2s;
 
-  &:hover {
-    background-color: $PRIMARY-PINK !important;
-    border-color: $PRIMARY-PINK !important;
-}
+    &:hover {
+        background-color: $PRIMARY-PINK !important;
+        border-color: $PRIMARY-PINK !important;
+    }
 
-&:active {
-    background-color: #DE89BE !important;
-    border-color: #DE89BE !important;
-}
+    &:active {
+        background-color: #de89be !important;
+        border-color: #de89be !important;
+    }
 }

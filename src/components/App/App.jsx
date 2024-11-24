@@ -35,7 +35,7 @@ const AppContent = () => {
         );
     }
 
-    return <Card/>;
+    return <Card />;
 };
 
 const App = () => {
@@ -124,6 +124,9 @@ const App = () => {
                         tooltip: {
                             textAlign: "center",
                             fontSize: "14px",
+                            "@media (max-width: 480px)": {
+                                fontSize: "22px",
+                            },
                         },
                     }}
                 />
