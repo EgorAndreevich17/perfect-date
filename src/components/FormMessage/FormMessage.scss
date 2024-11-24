@@ -1,0 +1,30 @@
+.form {
+    &-container {
+        display: flex;
+        flex-direction: column;
+        // padding: 10px;
+    }
+
+    &-input {
+        box-sizing: border-box;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        padding-inline: 5px;
+    }
+
+    &-button {
+        background-color: #de89be;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        width: 90px;
+        margin-top: 6px;
+        margin-left: auto;
+        transition: transform 0.3s ease-in-out;
+        &:hover,
+        &:active {
+            transform: scale(1.1);
+        }
+    }
+}
