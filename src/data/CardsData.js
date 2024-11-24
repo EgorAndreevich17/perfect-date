@@ -59,6 +59,18 @@ export const CardsTags = {
 
 export const CardsData = [
     {
+        type: "intro",
+        activity: "intro",
+        pics: [
+            "https://i.pinimg.com/control2/736x/c1/e0/07/c1e0075648c0ac92e18bf6876a7359bf.jpg",
+            "https://i.pinimg.com/control2/736x/3b/2c/42/3b2c4270139f44b1ac9b039ae705194d.jpg",
+            "https://i.pinimg.com/736x/ff/bf/31/ffbf31a34ae33a4610e51bb995d444e6.jpg",
+        ],
+        description:
+            "Здесь будет описание карточек, которое поможет тебе сделать правильный выбор и построить идеальное свидание.",
+        tags: [22, 18, 12, 42, 19],
+    },
+    {
         type: "celebrity",
         activity: "Дэвид Линч",
         pics: [

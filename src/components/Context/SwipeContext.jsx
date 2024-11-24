@@ -47,6 +47,7 @@ export const SwipeProvider = ({ children }) => {
         if (!viewedCategories.includes(currentCategory)) {
             setViewedCategories([...viewedCategories, currentCategory]);
         }
+        console.log(selectedActivities)
     };
 
     // Функция дизлайка слайда

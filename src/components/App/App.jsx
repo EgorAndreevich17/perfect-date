@@ -4,10 +4,17 @@ import { useSwipeContext } from "../Context/SwipeContext";
 import { SwipeProvider } from "../Context/SwipeContext";
 import Card from "../Card/Card";
 import MessageModal from "../MessageModal/MessageModal";
+import Intro from "../Intro/Intro";
+import FinalForm from "../FinalForm/FinalForm";
 import "./App.scss";
 
 const AppContent = () => {
     const { cards, selectedActivities } = useSwipeContext();
+    const [showIntro, setShowIntro] = useState(true);
+
+    const handleIntroFinish = () => {
+        setShowIntro(false); // Завершение вступления
+    };
 
     const handleSubmit = () => {
         const form = document.createElement("form");
@@ -27,19 +34,14 @@ const AppContent = () => {
     };
 
     if (cards.length === 0) {
-        return (
-            <div>
-                <h1>Вы завершили выбор!</h1>
-                <button onClick={handleSubmit}>Отправить результаты</button>
-            </div>
-        );
+        return <FinalForm></FinalForm>;
     }
 
-    return <Card />;
+    return showIntro ? <Intro onFinish={handleIntroFinish} /> : <Card />;
 };
 
 const App = () => {
-    const [run, setRun] = useState(true);
+    const [runJoyride, setRunJoyride] = useState(false); // Отвечает за запуск Joyride
 
     const steps = [
         {
@@ -95,12 +97,21 @@ const App = () => {
     ];
 
     return (
-        <>
-            <SwipeProvider>
-                <MessageModal></MessageModal>
+        <SwipeProvider>
+            <MessageModal />
+            <AppContent />
+            {/* Joyride запускается после завершения Intro */}
+            {!runJoyride && (
+                <Intro
+                    onFinish={() => {
+                        setRunJoyride(true);
+                    }}
+                />
+            )}
+            {runJoyride && (
                 <Joyride
                     steps={steps}
-                    run={run}
+                    run={runJoyride}
                     continuous
                     showSkipButton={false}
                     disableCloseOnEsc={true}
@@ -108,7 +119,6 @@ const App = () => {
                     hideBackButton={true}
                     hideCloseButton={true}
                     spotlightClicks={false}
-                    // disableCloseOnClick={true}
                     disableOverlayClose={true}
                     spotlightAnimation={false}
                     styles={{
@@ -130,9 +140,8 @@ const App = () => {
                         },
                     }}
                 />
-                <AppContent />
-            </SwipeProvider>
-        </>
+            )}
+        </SwipeProvider>
     );
 };
 

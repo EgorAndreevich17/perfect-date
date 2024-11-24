@@ -1,0 +1,28 @@
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000; /* Фон для атмосферы */
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.8rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.intro-text {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
