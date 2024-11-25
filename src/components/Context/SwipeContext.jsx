@@ -19,69 +19,107 @@ export const SwipeProvider = ({ children }) => {
     const [open, setOpen] = useState(false); // Статус модалки
 
     // Массив всех категорий
-    const categories = ['celebrity', 'idea', 'movie', 'music', 'food', 'drink', 'art', 'book', 'style', 'character'];
+    const categories = [
+        "celebrity",
+        "idea",
+        "movie",
+        "music",
+        "food",
+        "drink",
+        "art",
+        "book",
+        "style",
+        "character",
+    ];
 
     // Фильтрация карточек по типу (категории), исключая уже просмотренные категории
     const filterCardsByCategory = () => {
-        // Находим первую категорию, которая еще не была просмотрена
-        const firstUnviewedCategory = categories.find(category => !viewedCategories.includes(category));
-
-        if (!firstUnviewedCategory) {
-            return []; // Если все категории просмотрены, возвращаем пустой массив
+        // Первая карточка должна быть типа 'intro'
+        if (cards.some((card) => card.type === "intro")) {
+            return [cards.find((card) => card.type === "intro")]; // Вернем только карточку типа intro
         }
 
-        // Возвращаем только карточки из первой непосмотренной категории
-        return CardsData.filter(card => card.type === firstUnviewedCategory);
+        // Ищем первую категорию, где либо нет выбранных карточек, либо есть пропущенные карточки
+        const firstUnresolvedCategory = categories.find((category) => {
+            const isCategorySelected = selectedActivities.some(
+                (activity) => activity.type === category
+            );
+            const isCategoryDisliked = cards
+                .filter((card) => card.type === category)
+                .every((card) => dislikedActivities.includes(card));
+            return !isCategorySelected && !isCategoryDisliked;
+        });
+
+        if (!firstUnresolvedCategory) {
+            return []; // Если все категории решены (выбраны или отклонены), возвращаем пустой массив
+        }
+
+        // Возвращаем карточки из категории, которую нужно показать снова
+        return cards.filter((card) => card.type === firstUnresolvedCategory);
     };
 
-    // Функция для обработки действия с карточкой
+    // Функция для обработки действия с карточкой (лайк)
     const swipe = (card, liked) => {
-        if (liked) {
-            setSelectedActivities([...selectedActivities, card]);
+        if (card.type === "intro") {
+            setCards(cards.filter((c) => c !== card));
+            return;
         }
-        // Убираем карточку из текущего списка
-        setCards(cards.slice(1));
 
-        // После того как карточка свайпнута, помечаем категорию как просмотренную
-        const currentCategory = card.type;
-        if (!viewedCategories.includes(currentCategory)) {
-            setViewedCategories([...viewedCategories, currentCategory]);
+        if (liked) {
+            setSelectedActivities([...selectedActivities, card]); // Добавляем в выбранные
+            setViewedCategories([...viewedCategories, card.type]); // Помечаем категорию как заполненную
         }
-        console.log(selectedActivities)
+
+        // Убираем карточку из текущего списка
+        setCards(cards.filter((c) => c !== card));
     };
 
     // Функция дизлайка слайда
     const dislikeCard = (card) => {
+        if (card.type === 'intro') return; // Игнорируем дизлайк для карточки типа 'intro'
+    
         setDislikedActivities([...dislikedActivities, card]);
-        setCards(cards.filter((c) => c !== card)); // Удаляем карточку из предложенных
+        setCards(cards.filter(c => c !== card)); // Убираем карточку из текущего списка
     };
 
-    // Функция добавления сообщения к слайду
+    // Функция добавления сообщения к слайду (с автоматическим лайком)
     const addMessage = (card, message) => {
-        setSelectedActivities([
-            ...selectedActivities,
-            { card: card, message: message },
-        ]);
-        setCards(cards.slice(1));
+        if (card.type === "intro") return; // Игнорируем действие для карточки типа 'intro'
+
+        const updatedCard = { ...card, message }; // Добавляем сообщение в карточку
+
+        // Добавляем карточку с сообщением и лайкаем её
+        setSelectedActivities([...selectedActivities, updatedCard]);
+
+        // Убираем карточку из текущего списка
+        setCards(cards.filter((c) => c !== card));
+
+        // Помечаем категорию как просмотренную
+        const currentCategory = card.type;
+        if (!viewedCategories.includes(currentCategory)) {
+            setViewedCategories([...viewedCategories, currentCategory]);
+        }
     };
 
     // Функция для пропуска слайда
     const skipCard = (card) => {
+        if (card.type === 'intro') return; // Игнорируем пропуск для карточки типа 'intro'
+    
         setSkippedActivities([...skippedActivities, card]);
-        setCards(cards.filter((c) => c !== card)); // Удаляем карточку из предложенных
+        setCards(cards.filter(c => c !== card)); // Убираем карточку из текущего списка
     };
 
     // Функция для возврата к пропущенным слайдам
     const returnToSkipped = () => {
+        // Возвращаем пропущенные карточки в начало списка и очищаем их
         setCards([...skippedActivities, ...cards]);
-        setSkippedActivities([]); // Очистим массив пропущенных, так как они уже вернутся
+        setSkippedActivities([]); // Очистим массив пропущенных
     };
 
     // Функция показа модального окна
     const showModal = () => {
-        console.log('ewofkwef');
         setOpen(true);
-        setModalContent(renderInputForm(<FormMessage />)); // Устанавливаем исходное состояние
+        setModalContent(renderInputForm());
     };
 
     const renderInputForm = () => (
@@ -96,6 +134,7 @@ export const SwipeProvider = ({ children }) => {
     // Функция подтверждения отправки формы с сообщением
     const handleOk = () => {
         if (message.trim() === "") return; // Не даём отправить пустое сообщение
+
         setModalContent("Запоминаю твои мысли...");
         setConfirmLoading(true);
 
@@ -104,8 +143,7 @@ export const SwipeProvider = ({ children }) => {
             setMessage(""); // Сбрасываем текст инпута
             setConfirmLoading(false);
             setOpen(false);
-            setModalContent(renderInputForm(<FormMessage />)); // Возвращаем форму ввода
-            console.log(selectedActivities);
+            setModalContent(renderInputForm()); // Возвращаем форму ввода
         }, 2000);
     };
 

@@ -23,9 +23,10 @@ const FinalForm = () => {
         event.preventDefault();
 
         const formattedData = {
-            activities: formData.map(({ activity, type }) => ({
+            activities: formData.map(({ activity, type, message }) => ({
                 activity,
                 type,
+                message, // Добавляем поле message для каждой карточки
             })),
             comment, // Добавляем общий комментарий
         };
@@ -87,6 +88,12 @@ const FinalForm = () => {
                             handleChange(index, "activity", e.target.value)
                         }
                     />
+                    {activity.message && (
+                        <div className="final-form__message">
+                            <strong>Сообщение:</strong>
+                            <p>{activity.message}</p>
+                        </div>
+                    )}
                 </div>
             ))}
             <div className="final-form__comment">

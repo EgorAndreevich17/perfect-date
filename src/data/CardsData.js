@@ -60,7 +60,7 @@ export const CardsTags = {
 export const CardsData = [
     {
         type: "intro",
-        activity: "intro",
+        activity: "Скорее листай!",
         pics: [
             "https://i.pinimg.com/control2/736x/c1/e0/07/c1e0075648c0ac92e18bf6876a7359bf.jpg",
             "https://i.pinimg.com/control2/736x/3b/2c/42/3b2c4270139f44b1ac9b039ae705194d.jpg",
@@ -68,7 +68,7 @@ export const CardsData = [
         ],
         description:
             "Здесь будет описание карточек, которое поможет тебе сделать правильный выбор и построить идеальное свидание.",
-        tags: [22, 18, 12, 42, 19],
+        tags: [19, 56, 47],
     },
     {
         type: "celebrity",
